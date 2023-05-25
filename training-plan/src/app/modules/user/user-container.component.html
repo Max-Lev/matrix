@@ -1,0 +1,7 @@
+
+<mat-tab-group #matTabGroup (selectedTabChange)="selectedTabChange($event)">
+    <ng-container *ngFor="let link of links">
+        <mat-tab label="{{link}}"></mat-tab>
+    </ng-container>
+</mat-tab-group>
+<router-outlet></router-outlet>

@@ -1,0 +1,25 @@
+:host {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 55%;
+        top: 15px;
+        position: relative;
+
+        .full-width {
+            width: 100%;
+            width: 100%;
+            display: flex;
+            flex: 1;
+            justify-content: center;
+            button {
+                width: 75%;
+                left: 15%;
+            }
+        }
+    }
+}

@@ -1,0 +1,23 @@
+<form class="form-container" [formGroup]="registerForm" (ngSubmit)="register()">
+    <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput type="email" formControlName="email" email="true">
+        <button type="button" (click)="registerForm.get('email')?.setValue('')" matSuffix mat-icon-button
+            aria-label="User Email">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-form-field class=" full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+        <button type="button" matSuffix mat-icon-button aria-label="Password"
+            (click)="registerForm.get('password')?.setValue('')">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <div class="full-width">
+        <button type="submit" mat-flat-button color="primary">Register</button>
+    </div>
+</form>

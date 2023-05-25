@@ -1,0 +1,5 @@
+<section class="container">
+    <ng-container *ngFor="let student of students$ | async">
+        <app-card [student]="student"></app-card>
+    </ng-container>
+</section>

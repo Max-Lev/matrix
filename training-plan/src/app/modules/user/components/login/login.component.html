@@ -1,0 +1,51 @@
+<!-- <form class="form-container" [formGroup]="loginForm" (ngSubmit)="login()">
+    <mat-form-field class="full-width">
+        <mat-label>User Name</mat-label>
+        <input matInput type="text" formControlName="username">
+        <button type="button" (click)="loginForm.get('username')?.setValue('')" matSuffix mat-icon-button
+            aria-label="User Name">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <mat-form-field class=" full-width">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+        <button type="button" matSuffix mat-icon-button aria-label="Password"
+            (click)="loginForm.get('password')?.setValue('')">
+            <mat-icon>close</mat-icon>
+        </button>
+    </mat-form-field>
+
+    <div class="full-width">
+        <button type="submit" mat-flat-button color="primary">Login</button>
+    </div>
+</form> -->
+
+<!-- <button (click)="g()" type="button" mat-flat-button color="primary">Google</button> -->
+
+<section class="form-container">
+    <div class="full-width">
+        <!-- <button type="button" (click)="googleLogin()" mat-flat-button color="primary">Login</button> -->
+        <!-- <button id="basic" type="button" mat-button mat-flat-button color="primary"> -->
+        <asl-google-signin-button size="large" type="standard" shape="rectangular"
+            title="Sign with Google"></asl-google-signin-button>
+        <!-- </button> -->
+
+    </div>
+</section>
+
+<section class="form-container">
+    <div class="full-width">
+        <button type="button" (click)="signOut()" mat-flat-button color="primary">SignOut</button>
+    </div>
+</section>
+
+<!-- <asl-google-signin-button [type]='false' size='medium'></asl-google-signin-button> -->
+
+
+<!-- <img src="{{ user?.photoUrl }}" referrerpolicy="no-referrer">
+<div>
+    <h4>{{ user?.name }}</h4>
+    <p>{{ user?.email }}</p>
+</div> -->

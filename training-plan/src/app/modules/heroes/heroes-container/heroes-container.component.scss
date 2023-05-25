@@ -1,0 +1,11 @@
+:host {
+    .container {
+        display: flex;
+        max-width: 85%;
+        border: 1px solid lime;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin: auto;
+    }
+}
