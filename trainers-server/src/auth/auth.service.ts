@@ -1,22 +1,23 @@
 
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/models/user.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from 'src/users/models/create-user.dto';
 import { threadId } from 'worker_threads';
+import { HeroModel } from 'src/heroes/entities/hero.entity';
+import { ExtractJwt } from 'passport-jwt';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    private readonly jwtService: JwtService,
-    @InjectModel('User') private readonly userModel: Model<User>
-  ) { }
+  constructor(private readonly jwtService: JwtService,
+    @InjectModel('Heroes') private readonly heroesModel: Model<HeroModel>,
+    @InjectModel('User') private readonly userModel: Model<User>) { }
 
-  async validateUserMongo(usern: string, pass: string): Promise<any> {
-    const user = await this.userModel.findOne({ email: usern });
-    if (user && user.password === pass) {
+  async validateUserMongo(email: string, password: string): Promise<any> {
+    const user = await this.userModel.findOne({ email: email });
+    if (user && user.password === password) {
       // const { password, ...result } = user;
       // return result;
       return user;
@@ -25,13 +26,13 @@ export class AuthService {
   }
 
   // post a single user
-  async create(createUserDTO: CreateUserDto): Promise<User> {
+  async registerCreate(createUserDTO: CreateUserDto): Promise<User> {
 
     const isUserExists = await this.IsUserExists(createUserDTO);
 
     if (!isUserExists) {
       const newUser = await new this.userModel(createUserDTO);
-      console.log(newUser)
+      console.log('registerCreate ', newUser)
       return newUser.save();
 
     } else {
@@ -52,19 +53,47 @@ export class AuthService {
 
   }
 
+  async getGoogleToken(decodedToken: string): Promise<{ _id: string, access_token: string }> {
+
+    const details: { [email: string]: string } | string = this.jwtService.decode(decodedToken);
+    console.log('user details', details);
+
+    const user = await this.userModel.findOne({ email: details['email'] }).exec();
+
+    console.log('Logged User: ', user);
+    if (user) {
+
+      const localUserToken: string = this.jwtService.sign({ ...user['_doc'] });
+      
+      // const localUserToken: string = this.jwtService.sign(details);
+      // console.log('localUserToken: ', localUserToken);
+      return {
+        _id: user._id,
+        access_token: localUserToken
+        // access_token: decodedToken
+      }
+
+    } else {
+      throw new UnauthorizedException();
+    }
+
+  }
+
   async login(user: CreateUserDto): Promise<any> {
     console.log(user);
-    const payload = { username: user.email, sub: user._id, roles: user.roles };
-    console.log(payload, this.jwtService.sign(payload),)
+    const payload = { username: user.email, sub: user._id, roles: user?.roles };
+    console.log(payload, this.jwtService.sign(payload))
+    this.jwtService.signAsync(payload);
     return {
       user,
       access_token: this.jwtService.sign(payload),
     };
   }
 
-  // async getHelloAdmin() {
-  //   return "You are in the admin panel"
-  // }
+  async findAll(): Promise<HeroModel[]> {
+    const heroes = await this.heroesModel.find().exec();
+    return heroes;
+  }
 }
 
 

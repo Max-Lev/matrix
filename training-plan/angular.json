@@ -39,6 +39,9 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "moment"
+            ],
             "outputPath": "dist/training-plan",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -55,7 +58,9 @@
               "@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/moment/moment.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -129,6 +134,7 @@
           }
         }
       }
+      
     }
   }
 }

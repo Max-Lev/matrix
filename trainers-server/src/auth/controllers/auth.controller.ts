@@ -2,32 +2,26 @@ import { Controller, Request, UseGuards, Post, Get, Delete, Put, Body, SetMetada
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateUserDto } from '../../users/models/create-user.dto';
-import { DbUserService } from '../../users/services/dbusers.service';
-import { MyAuthGuard } from '../guard/auth.guard';
-import { RolesGuard } from '../guard/roles.guard';
-import { Roles } from '../jwt/roles.decorator';
+import { JwtService } from '@nestjs/jwt';
+import { JWTAuthGuard } from '../guard/auth.guard';
+import { JwtStrategy } from '../jwt/jwt.strategy';
 
 @Controller('auth')
-@Controller()
 export class authController {
-  constructor(
-    private readonly authService: AuthService,
-  ) { }
+  constructor(private readonly authService: AuthService) {
 
-
-  @UseGuards(AuthGuard('local'))
-  @Post('login')
-  async login(@Request() req) {
-    console.log(req.user)
-    return this.authService.login(req.user._doc);
   }
 
-  // @UseGuards(AuthGuard('jwt'))
+  @Post('login')
+  async login(@Request() req) {
+    const data = await this.authService.getGoogleToken(req.headers.authorization);
+    return data;
+  }
+
+
   @Post('register')
   async create(@Body() user: CreateUserDto) {
-    // this.login(user);
-    // this.authService.login(user);
-    return this.authService.create(user);
+    return this.authService.registerCreate(user);
   }
 
   // @UseGuards(AuthGuard('jwt'))

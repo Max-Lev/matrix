@@ -3,12 +3,13 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Strategy, VerifyCallback } from 'passport-google-oauth20';
 // import { AuthService } from '../auth2.service';
 import { GooglePayload } from './google-profile-payload.type';
+import { AuthService } from 'src/auth/auth.service';
 
 @Injectable()
 export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
   // For more details see:  https://developers.google.com/identity/protocols/oauth2/web-server#httprest_1
   constructor(
-    // private readonly authService: AuthService
+    private readonly authService: AuthService
   ) {
     super({
       // clientID: '314561033767-4o6e5n7i8ckcchbag66r736bm1697mk0.apps.googleusercontent.com',
@@ -25,22 +26,31 @@ export class GoogleStrategy extends PassportStrategy(Strategy, 'google') {
     });
   }
 
-  async validate(accessToken: string, refreshToken: string, profile: any, done: VerifyCallback): Promise<any> {
+  async validate(accessToken: string, refreshToken: string, profile: any, done?: VerifyCallback): Promise<any> {
 
-    const { name, emails, photos } = profile;
+    const { username, email } = profile;
 
     const user = {
-      email: emails[0].value,
-      firstName: name.givenName,
-      lastName: name.familyName,
-      picture: photos[0].value,
+      email: email,
+      username: username,
+      // firstName: name.givenName,
+      // lastName: name.familyName,
+      // picture: photos[0].value,
       accessToken
     }
-
+    const j = this.jwtService.sign(user);
+    console.log(j)
     console.log('GoogleStrategy user: ', user);
     done(null, user);
     // return this.authService.manageGoogleUser(user);
-  }
+
+    // return await this.userService.createOrUpdateUser({
+    //   displayName: profile.displayName,
+    //   email: profile.emails[0].value,
+    //   avatar: profile.photos[0].value,
+    // });
+  
+}
 
   // async validate(
   //   req: any,

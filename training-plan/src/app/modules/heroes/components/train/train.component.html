@@ -1,0 +1,58 @@
+<div class="train">
+    <button (click)="back()" mat-raised-button color="primary">Back</button>
+</div>
+
+<section class="container">
+
+    <ng-container *ngFor="let hero of (heroes$ | orderBy | async ) as HeroModel">
+        
+        <app-card #card (trainHeroEmitter)="trainHeroHandler($event)" (formUpdateEvent)="formUpdateEventHandler($event)"
+            [hero]="hero" [suits]="suits" [abilities]="abilities">
+            <ng-container train>
+
+                <mat-card-content class="top">
+                    <h3>ID: {{card.hero.id}}</h3>
+                </mat-card-content>
+                <mat-card-content class="top" [style.visibility]="(card.hero.startDate) ? 'visible' : 'hidden'">
+                    <!-- <mat-card-content class="top"> -->
+                    <h3>Start Date: {{card.hero.startDate |date:'medium'}}</h3>
+                    <h3>Next Training: {{card.nextTraining | date:'medium' }}</h3>
+                </mat-card-content>
+
+                <form [formGroup]="card.form">
+                    <mat-form-field>
+                        <mat-label>Suit</mat-label>
+                        <mat-select formControlName="suit">
+                            <mat-option *ngFor="let suit of suits" [value]="suit.id">
+                                {{suit.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-form-field>
+                        <mat-label>Abilities</mat-label>
+                        <mat-select formControlName="ability">
+                            <mat-option *ngFor="let ability of abilities" [value]="ability.id">
+                                {{ability.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <mat-card-content>
+                        <div>
+                            <h3>Starting Power: {{card.hero.startingPower}}</h3>
+                            <ng-container *ngIf="card.hero.currentPower">
+                                <h3>Current Power: {{card.hero.currentPower }}</h3>
+                            </ng-container>
+                        </div>
+                    </mat-card-content>
+
+                    <button [disabled]="card.hero.trainingCounter === 5" (click)="card.trainHeroAction(hero)"
+                        mat-raised-button color="primary">Train ({{card.hero.trainingCounter}})</button>
+                </form>
+
+            </ng-container>
+        </app-card>
+
+    </ng-container>
+</section>

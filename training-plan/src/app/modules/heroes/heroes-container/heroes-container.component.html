@@ -1,5 +1,31 @@
+<div class="train" [style.visibility]="(isTrainLink) ? 'visible' : 'hidden'">
+    <button (click)="trainLink()" mat-raised-button color="primary">Train</button>
+</div>
+<!-- <section class="form-container">
+    <div class="full-width">
+        <button type="button" (click)="signOut()" mat-flat-button color="primary">SignOut</button>
+    </div>
+</section> -->
+
 <section class="container">
-    <ng-container *ngFor="let student of students$ | async">
-        <app-card [student]="student"></app-card>
+    <ng-container *ngFor="let hero of heroes$ | async">
+        <app-card #card (selectHeroActionEmitter)="selectHeroActionHandler($event)" [hero]="hero">
+
+            <ng-container train>
+                <mat-card-actions>
+                    <ng-container *ngIf="!hero.trainer;else selected">
+                        <button mat-button (click)="card.selectHeroAction({hero,action:actionType.SELECT})">Select
+                        </button>
+                    </ng-container>
+                    <ng-template #selected>
+                        <button mat-button
+                            (click)="card.selectHeroAction({hero,action:actionType.UNSELECT})">Training</button>
+                    </ng-template>
+                </mat-card-actions>
+            </ng-container>
+
+        </app-card>
     </ng-container>
 </section>
+
+<router-outlet></router-outlet>

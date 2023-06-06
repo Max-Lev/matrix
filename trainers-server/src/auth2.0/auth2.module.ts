@@ -34,5 +34,9 @@ import { AuthSchema } from './models/auth.schema';
     Auth2Service,
     GoogleStrategy
   ],
+  exports:[
+    Auth2Service,
+    GoogleStrategy
+  ]
 })
 export class AuthModule2 { }

@@ -29,7 +29,9 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
 
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true
+    },
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {
@@ -37,7 +39,6 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            // id: '429041238969-slhmsmnhj4imi93g2vka73tpof0p5iup.apps.googleusercontent.com',
             provider: new GoogleLoginProvider('429041238969-slhmsmnhj4imi93g2vka73tpof0p5iup.apps.googleusercontent.com',
               {
                 oneTapEnabled: false

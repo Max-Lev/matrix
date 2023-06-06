@@ -1,9 +1,7 @@
 import { AfterViewInit, Component, OnInit, QueryList, ViewChild } from '@angular/core';
 import { MatTab, MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, NavigationEnd, NavigationStart, Router, RouterEvent } from '@angular/router';
-import { delay, filter, take } from 'rxjs/operators';
-import { LoginService } from './providers/login.service';
-import { GoogleUser, User } from './models/user.model';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-user-container',
@@ -16,22 +14,18 @@ export class UserContainerComponent implements AfterViewInit, OnInit {
 
   @ViewChild('matTabGroup') matTabGroup!: MatTabGroup;
 
-  constructor(private router: Router, private activeRoute: ActivatedRoute,
-    private loginService: LoginService) {
+  constructor(private router: Router, private activeRoute: ActivatedRoute) {
 
   }
 
   ngOnInit(): void {
-    // this.getGoogleUser$();
-    // this.loginService.auth$.subscribe(s => console.log(s))
+    
   }
 
   ngAfterViewInit(): void {
     this.setDefaultTab();
     this.setActiveTab$();
   }
-
-  
 
   setActiveTab$() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(d => {
@@ -44,7 +38,6 @@ export class UserContainerComponent implements AfterViewInit, OnInit {
   setDefaultTab() {
     const path = this.activeRoute.snapshot.firstChild?.routeConfig?.path;
     const activeTab = this.matTabGroup._tabs.find(tab => tab.textLabel === path)!;
-    // const activeTab = this.matTabGroup._tabs['_results'].findIndex((tab: MatTab) => tab.textLabel === path);
     this.matTabGroup.selectedIndex = activeTab.position!;
   }
 
