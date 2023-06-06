@@ -32,11 +32,11 @@ import { AuthSchema } from './models/auth.schema';
   providers: [
     // AuthService, 
     Auth2Service,
-    GoogleStrategy
+    // GoogleStrategy
   ],
   exports:[
     Auth2Service,
-    GoogleStrategy
+    // GoogleStrategy
   ]
 })
 export class AuthModule2 { }
