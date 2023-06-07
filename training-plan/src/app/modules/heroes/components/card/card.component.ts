@@ -1,11 +1,12 @@
 import { Component, OnChanges, OnInit, AfterViewInit, OnDestroy, Input, Output, EventEmitter, SimpleChanges, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subject, takeUntil, interval} from 'rxjs';
-import { HeroModel } from '../../models/hero.model';
+import { Subject, takeUntil, interval } from 'rxjs';
+import { ActionType, HeroModel } from '../../models/hero.model';
 import { Options } from '../../models/options.model';
 import { SelectHeroAction, UpdateHeroAction } from '../../models/update-hero.model';
 import { TrainingUtilityService } from '../../providers/training-utility.service';
+import { LoginService } from 'src/app/modules/user/providers/login.service';
 
 @Component({
   selector: 'app-card',
@@ -38,6 +39,7 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
   nextTraining?: number;
 
   constructor(private formBuilder: FormBuilder, private router: Router,
+    private loginService: LoginService,
     private trainingUtilityService: TrainingUtilityService,) {
 
   }
@@ -54,7 +56,7 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    // console.log('changes ', changes)
+
   }
 
   ngOnDestroy(): void {
@@ -76,12 +78,19 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
   }
 
   selectHeroAction(event: SelectHeroAction): void {
-    this.selectHeroActionEmitter.emit(event);
+
+    if (event.hero.trainer === null) {
+      this.selectHeroActionEmitter.emit(event);
+    }
+    if (event.action === ActionType.UNSELECT && event.hero.trainer === this.loginService.getUser()?._id) {
+      this.selectHeroActionEmitter.emit(event);
+    }
   }
 
   trainHeroAction(hero: HeroModel) {
 
     hero = this.trainingUtilityService.power$(hero);
+
     this.nextTraining$(hero, 'user action');
   }
 
@@ -103,18 +112,20 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
 
     interval(1000).pipe(takeUntil(this.stop$)).subscribe({
       next: (timeCounter: number) => {
+
         console.log('time counter: ', timeCounter, 'now:', new Date());
 
         if (Date.now() > this.nextTraining!) {
           if (hero.trainingCounter !== 0) {
             this.trainHeroEmitter.emit({ hero, payload: { trainingCounter: 0 } });
           }
-          // console.log('stop: ', new Date());
+
           this.stop$.next(false);
         }
 
       }
     });
+
   }
 
 

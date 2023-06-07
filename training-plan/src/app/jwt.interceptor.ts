@@ -21,7 +21,7 @@ export class JwtInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // add auth header with jwt if user is logged in and request is to the api url
     const debuggToken = JSON.parse(localStorage.getItem('user') || '{}').access_token;
-    const token: string | null = this.loginService!.getUser()?.access_token || debuggToken;
+    const token: string | undefined = this.loginService!.getUser()?.access_token;// || debuggToken;
     const isLoggedIn: boolean = this.loginService.isLoggedIn.getValue();
 
     if (token && isLoggedIn) {
@@ -35,11 +35,11 @@ export class JwtInterceptor implements HttpInterceptor {
 
     return next.handle(request)
       .pipe(
+
         map((event: any) => {
           if ((event instanceof HttpResponse) && event.body && event.body['access_token']) {
             this.loginService.setUser(event.body['access_token']);
           }
-
           return event;
         }),
         catchError((error: HttpErrorResponse) => {

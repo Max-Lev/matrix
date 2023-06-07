@@ -9,16 +9,14 @@ import { environment } from 'src/environments/environment.development';
 })
 export class AppComponent implements OnInit {
 
-  title = 'training-plan';
+  title = 'Matrix Heroes';
 
   constructor(private httpClient: HttpClient) {
 
   }
 
   ngOnInit(): void {
-    // setTimeout(() => {
-    //   this.httpClient.get<any>(`${environment.server}/students/getAllStudents`).subscribe(d=>console.log(d))
-    // }, 1000);
+    
   }
 
 }

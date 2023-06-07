@@ -4,5 +4,4 @@ export class  CreateUserDto {
     readonly password: string;
     readonly created_at: Date;
     readonly roles   : string[]; 
-    // access_token:string;
 }

@@ -2,8 +2,8 @@
 export class User {
     access_token: string;
     _id: string;
-    constructor(u: User) {
-        Object.assign(this, u);
+    constructor(user?: User) {
+        Object.assign(this, user);
         console.log('user', this);
     }
 
