@@ -21,13 +21,16 @@ export class LoginService {
     if (user.access_token) {
       this.isLoggedIn.next(true);
       this.userSubject.next(user);
+    }else{
+      this.isLoggedIn.next(false);
+      this.userSubject.next(user);
     }
   }
 
   getUser(): User | null {
     return this.userSubject.getValue()
-      // DEBUGG
-      || JSON.parse(localStorage.getItem('user') || '{}');
+    // DEBUGG
+    || JSON.parse(localStorage.getItem('user') || '{}');
   }
 
   login(formData: { username: string, email: string }): Observable<any> {
@@ -38,7 +41,7 @@ export class LoginService {
         //DEBUGG
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
-        // this.userSubject.next(user)
+        this.userSubject.next(user)
         return user;
       }));
 

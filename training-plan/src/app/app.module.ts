@@ -18,15 +18,7 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    HttpClientModule,
-    // GoogleSigninButtonModule
-    // OAuthModule.forRoot({
-    //   resourceServer: {
-    //     allowedUrls: ['http://localhost:3000'],
-    //     sendAccessToken: true
-    //   }
-    // })
-
+    HttpClientModule
   ],
   providers: [
     {
@@ -39,10 +31,12 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
         providers: [
           {
             id: GoogleLoginProvider.PROVIDER_ID,
-            provider: new GoogleLoginProvider('429041238969-slhmsmnhj4imi93g2vka73tpof0p5iup.apps.googleusercontent.com',
+            provider: new GoogleLoginProvider(
+              '429041238969-slhmsmnhj4imi93g2vka73tpof0p5iup.apps.googleusercontent.com',
               {
                 oneTapEnabled: false
-              })
+              }
+            )
           }
         ],
         onError: (err) => {

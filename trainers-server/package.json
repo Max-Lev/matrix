@@ -30,6 +30,7 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/typeorm": "^9.0.1",
     "@types/set-tz": "^0.2.0",
+    "chalk": "^4.1.2",
     "moment-timezone": "^0.5.43",
     "mongodb": "^5.5.0",
     "mongoose": "^7.1.1",

@@ -73,19 +73,4 @@ export class HeroesService {
 
   }
 
-  // create(createDashboardDto: CreateHerodDto) {
-  //   return 'This action adds a new dashboard';
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} dashboard`;
-  // }
-
-  // update(id: number, updateDashboardDto: UpdateHeroDto) {
-  //   return `This action updates a #${id} dashboard`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} dashboard`;
-  // }
 }

@@ -41,28 +41,5 @@ export class HeroesController {
     return await this.heroesService.updateHero(hero);
   }
 
-  @Post(':id')
-  selectHeroes() {
-
-  }
-
-  // @Post()
-  // create(@Body() createDashboardDto: CreateDashboardDto) {
-  //   return this.dashboardService.create(createDashboardDto);
-  // }
-
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.dashboardService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateDashboardDto: UpdateDashboardDto) {
-  //   return this.dashboardService.update(+id, updateDashboardDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.dashboardService.remove(+id);
-  // }
+  
 }

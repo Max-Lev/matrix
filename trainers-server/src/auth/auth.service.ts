@@ -5,9 +5,7 @@ import { User } from 'src/users/models/user.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CreateUserDto } from 'src/users/models/create-user.dto';
-import { threadId } from 'worker_threads';
 import { HeroModel } from 'src/heroes/entities/hero.entity';
-import { ExtractJwt } from 'passport-jwt';
 
 @Injectable()
 export class AuthService {
@@ -18,8 +16,6 @@ export class AuthService {
   async validateUserMongo(email: string, password: string): Promise<any> {
     const user = await this.userModel.findOne({ email: email });
     if (user && user.password === password) {
-      // const { password, ...result } = user;
-      // return result;
       return user;
     }
     return null;
@@ -40,9 +36,7 @@ export class AuthService {
     }
   }
 
-  // @Get('check/:userID')
   async IsUserExists(createUserDto: CreateUserDto): Promise<boolean> {
-
     const list = await this.userModel.find({
       password: createUserDto.password,
       email: createUserDto.email
@@ -65,12 +59,9 @@ export class AuthService {
 
       const localUserToken: string = this.jwtService.sign({ ...user['_doc'] });
       
-      // const localUserToken: string = this.jwtService.sign(details);
-      // console.log('localUserToken: ', localUserToken);
       return {
         _id: user._id,
         access_token: localUserToken
-        // access_token: decodedToken
       }
 
     } else {

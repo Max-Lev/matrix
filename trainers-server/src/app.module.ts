@@ -1,23 +1,14 @@
 import { ConsoleLogger, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { MongooseModule } from '@nestjs/mongoose';
-import { UsersModule } from './users/users.module';
-import { LazyModuleLoader } from '@nestjs/core';
 import { AuthModule } from './auth/auth.module';
 import { HeroesModule } from './heroes/heroes.module';
-import { AuthModule2 } from './auth2.0/auth2.module';
-
-export class MyLogger extends ConsoleLogger {
-  error(message: any, stack?: string, context?: string) {
-    console.log('error', message, stack, context)
-    super.error(arguments);
-  }
-
+const chalk = require('chalk');
+export class AppLogger extends ConsoleLogger {
+  
   log(message: any, stack?: string, context?: string, error?: string) {
-    super.log(message, stack, context)
-    console.log('logger - ', 'message:', message, 'stack:', stack,
-      'error:', error,
-      'context:', context)
+    super.log(message, stack, context, error)
+    console.log(chalk.yellow('message:', message, 'stack:', stack, 'error:', error))
   }
 
 }
@@ -31,11 +22,11 @@ const mongoDbConnection = 'mongodb+srv://maxlevtov:987495Max7003388@trainers.2xa
   ],
   controllers: [AppController],
   providers: [
-    MyLogger
+    AppLogger
   ],
 })
 export class AppModule {
-  constructor(public lazyModuleLoader: LazyModuleLoader) {
+  constructor() {
 
   }
 }

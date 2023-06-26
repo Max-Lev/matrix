@@ -35,4 +35,8 @@ import { OrderbyPipe } from './pipes/orderby.pipe';
     OrderbyPipe
   ]
 })
-export class HeroesModule { }
+export class HeroesModule { 
+  constructor(){
+    console.log('HeroesModule')
+  }
+}
