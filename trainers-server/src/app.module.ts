@@ -22,7 +22,7 @@ export class MyLogger extends ConsoleLogger {
 
 }
 
-const mongoDbConnection = 'mongodb+srv://maxlevtov:987495Max@trainers.2xaz3yk.mongodb.net/trainers?retryWrites=true&w=majority';
+const mongoDbConnection = 'mongodb+srv://maxlevtov:987495Max7003388@trainers.2xaz3yk.mongodb.net/trainers?retryWrites=true&w=majority';
 @Module({
   imports: [
     MongooseModule.forRoot(mongoDbConnection),

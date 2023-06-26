@@ -70,7 +70,9 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
   }
 
   heroUpdate$(): void {
-    this.form.valueChanges.pipe(takeUntil(this.stop$)).subscribe(value => {
+    this.form.valueChanges
+    // .pipe(takeUntil(this.stop$))
+    .subscribe(value => {
       this.formUpdateEvent.emit({ hero: { ...this.hero }, payload: value });
     });
   }
@@ -101,7 +103,7 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
     const startTraining = new Date(hero.startDate).getTime();
     this.nextTraining = +new Date(startTraining).setSeconds(new Date(startTraining).getSeconds() + 10).toString();
 
-    interval(1000).pipe(takeUntil(this.stop$)).subscribe({
+    interval(1000).pipe(takeUntil(this.destroy$)).subscribe({
       next: (timeCounter: number) => {
         console.log('time counter: ', timeCounter, 'now:', new Date());
 
@@ -110,7 +112,7 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
             this.trainHeroEmitter.emit({ hero, payload: { trainingCounter: 0 } });
           }
           // console.log('stop: ', new Date());
-          this.stop$.next(false);
+          this.destroy$.next(false);
         }
 
       }

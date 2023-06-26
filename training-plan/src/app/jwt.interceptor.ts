@@ -23,8 +23,9 @@ export class JwtInterceptor implements HttpInterceptor {
     const debuggToken = JSON.parse(localStorage.getItem('user') || '{}').access_token;
     const token: string | null = this.loginService!.getUser()?.access_token || debuggToken;
     const isLoggedIn: boolean = this.loginService.isLoggedIn.getValue();
-
-    if (token && isLoggedIn) {
+    console.log(debuggToken, token, isLoggedIn);
+    // if (token && isLoggedIn) {
+    if (token) {
       request = request.clone({
         setHeaders: {
           Authorization: `${token}`
@@ -50,7 +51,8 @@ export class JwtInterceptor implements HttpInterceptor {
           } else {
             errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
             if (error.error.statusCode === 401) {
-              this.router.navigate(['/'])
+              // this.router.navigate(['/'])
+              this.router.navigate(['/user/login']);
               return throwError(() => new Error(error.error));
             }
           }
