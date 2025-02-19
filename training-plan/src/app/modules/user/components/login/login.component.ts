@@ -47,26 +47,26 @@ export class LoginComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    setTimeout(() => {
-      // @ts-ignore
-      google.accounts.id.initialize({
-        client_id: "429041238969-slhmsmnhj4imi93g2vka73tpof0p5iup.apps.googleusercontent.com",
-        callback: this.handleCredentialResponse.bind(this),
-        auto_select: false,
-        cancel_on_tap_outside: true,
+    // setTimeout(() => {
+    //   // @ts-ignore
+    //   google.accounts.id.initialize({
+    //     client_id: "429041238969-slhmsmnhj4imi93g2vka73tpof0p5iup.apps.googleusercontent.com",
+    //     callback: this.handleCredentialResponse.bind(this),
+    //     auto_select: false,
+    //     cancel_on_tap_outside: true,
 
-      });
-      // @ts-ignore
-      google.accounts.id.renderButton(
-        // @ts-ignore
-        document.getElementById("google-button"),
-        { theme: "outline", size: "large", width: "100%" }
-      );
-      // @ts-ignore
-      google.accounts.id.prompt((notification: PromptMomentNotification) => {
-        console.log('notification ', notification);
-      });
-    }, 2000);
+    //   });
+    //   // @ts-ignore
+    //   google.accounts.id.renderButton(
+    //     // @ts-ignore
+    //     document.getElementById("google-button"),
+    //     { theme: "outline", size: "large", width: "100%" }
+    //   );
+    //   // @ts-ignore
+    //   google.accounts.id.prompt((notification: PromptMomentNotification) => {
+    //     console.log('notification ', notification);
+    //   });
+    // }, 2000);
 
     this.socialAuthService.authState.pipe(
       map((socialUser: SocialUser) => {

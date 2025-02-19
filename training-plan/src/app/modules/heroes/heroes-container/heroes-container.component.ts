@@ -9,6 +9,7 @@ import { User } from '../../user/models/user.model';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 
 @Component({
+  selector: 'app-heroes-container',
   templateUrl: './heroes-container.component.html',
   styleUrls: ['./heroes-container.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush

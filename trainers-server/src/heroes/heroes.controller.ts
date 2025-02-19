@@ -1,11 +1,11 @@
-import { Controller, Get, Post, Body, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, UseGuards, Logger } from '@nestjs/common';
 import { SelectHeroRequest, SelectHeroDto } from './dto/select-hero.dto';
 import { HeroModel } from './entities/hero.entity';
 import { HeroesService } from './heroes.service';
 import { OptionsModel } from './entities/options.schema';
 import { JWTAuthGuard } from 'src/auth/guard/auth.guard';
 import { AuthGuard } from '@nestjs/passport';
-@UseGuards(JWTAuthGuard)
+// @UseGuards(JWTAuthGuard)
 @Controller('heroes')
 export class HeroesController {
   constructor(private readonly heroesService: HeroesService) { }
@@ -14,6 +14,12 @@ export class HeroesController {
   @Get('getAllHeroes')
   getAllHeroes() {
     return this.heroesService.getAllHeroes();
+  }
+
+  @Post()
+  async create(@Body() hero: HeroModel): Promise<HeroModel> {
+    Logger.log('users post: ',hero)
+    return this.heroesService.create(hero);
   }
 
   @Get('getHeroSuits')
@@ -27,6 +33,7 @@ export class HeroesController {
 
   @Post('selectHero')
   async selectHero(@Body() payload: SelectHeroRequest): Promise<SelectHeroDto> {
+    Logger.log('selectHero',payload)
     return await this.heroesService.selectHero(payload);
   }
 

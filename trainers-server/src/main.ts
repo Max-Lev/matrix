@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule, AppLogger } from './app.module';
+import { Logger } from '@nestjs/common';
 
 const chalk = require('chalk');
 async function bootstrap() {
@@ -22,7 +23,10 @@ async function bootstrap() {
   });
 
 
-  await app.listen(3000);
+  // await app.listen(3000);
+  await app.listen(process.env.PORT ?? 3000,()=>{
+    Logger.log('server runing: ',process.env.PORT ?? 3000)
+  });
 }
 bootstrap();
 

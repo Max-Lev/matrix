@@ -1,8 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, catchError, delay, first, map, of, repeat, retry, tap } from 'rxjs';
+
 import { environment } from 'src/environments/environment';
 import { GoogleUser, User } from '../models/user.model';
+import { BehaviorSubject, Observable, tap, map, catchError } from 'rxjs';
 
 
 @Injectable({
@@ -14,7 +15,9 @@ export class LoginService {
 
   private userSubject = new BehaviorSubject<User | null>(null);
 
-  constructor(private httpClient: HttpClient) { };
+  constructor(private httpClient: HttpClient) {
+    // localStorage.setItem("user",JSON.stringify({access_token:"",_id:'67b5cedac322b0fe28d1fbab'}));
+   };
 
 
   setUser(user: User) {
@@ -28,9 +31,9 @@ export class LoginService {
   }
 
   getUser(): User | null {
-    return this.userSubject.getValue()
-    // DEBUGG
-    || JSON.parse(localStorage.getItem('user') || '{}');
+    const user = this.userSubject.getValue() || JSON.parse(localStorage.getItem('user') || '{}');
+    console.log('user: ', user);
+    return user;
   }
 
   login(formData: { username: string, email: string }): Observable<any> {

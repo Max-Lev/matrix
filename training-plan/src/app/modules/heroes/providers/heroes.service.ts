@@ -21,6 +21,7 @@ export class HeroesService {
     const id = this.loginService.getUser()?._id!;
     let params = new HttpParams();
     params = params.append('id', id);
+    // params = params.append('id', '67b5cedac322b0fe28d1fbab');
 
     const heroes$ = this.httpClient.get<HeroModel[]>(`${environment.server}/heroes/getHeroesByTrainerId`, { params: params });
 
@@ -44,6 +45,7 @@ export class HeroesService {
   }
 
   selectHero$(event: { hero: HeroModel, action: ActionType }): Observable<HeroModel> {
+    debugger;
     const _id = this.loginService.getUser()?._id;
     const payload = { user: { _id: _id }, hero: event.hero, action: event.action };
     return this.httpClient.post<HeroModel>(`${environment.server}/heroes/selectHero`, payload);

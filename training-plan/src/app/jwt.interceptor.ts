@@ -8,10 +8,8 @@ import {
   HttpResponse
 } from '@angular/common/http';
 import { Observable, catchError, map, throwError } from 'rxjs';
-import { environment } from 'src/environments/environment';
 import { LoginService } from './modules/user/providers/login.service';
 import { Router } from '@angular/router';
-import { User } from './modules/user/models/user.model';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {

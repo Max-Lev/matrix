@@ -1,7 +1,9 @@
-<div class="train" [style.visibility]="(isTrainLink) ? 'visible' : 'hidden'">
+<!-- <div class="train" [style.visibility]="(isTrainLink) ? 'visible' : 'hidden'"> -->
+<div class="train" [style.display]="(!isTrainLink) ? 'none' : 'block'">
     <button (click)="trainLink()" mat-raised-button color="primary">Train</button>
 </div>
-<div class="train" [style.visibility]="(isTrainLink) ? 'visible' : 'hidden'">
+<!-- <div class="train" [style.visibility]="(isTrainLink) ? 'visible' : 'hidden'"> -->
+    <div class="train" [style.display]="(!isTrainLink) ? 'none' : 'block'">
     <button (click)="logOut()" mat-raised-button color="primary">Log Out</button>
 </div>
 
@@ -12,7 +14,7 @@
 
             <ng-container train>
                 <mat-card-actions>
-                    <ng-container *ngIf="hero.trainer===null;else selected">
+                    <ng-container *ngIf="hero.trainer===null || hero.trainer==='null';else selected">
                         <button mat-button (click)="card.selectHeroAction({hero,action:actionType.SELECT})">Select
                         </button>
                     </ng-container>

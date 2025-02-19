@@ -73,15 +73,16 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
 
   heroUpdate$(): void {
     this.form.valueChanges
-    // .pipe(takeUntil(this.stop$))
-    .subscribe(value => {
-      this.formUpdateEvent.emit({ hero: { ...this.hero }, payload: value });
-    });
+      // .pipe(takeUntil(this.stop$))
+      .subscribe(value => {
+        this.formUpdateEvent.emit({ hero: { ...this.hero }, payload: value });
+      });
   }
 
   selectHeroAction(event: SelectHeroAction): void {
-
-    if (event.hero.trainer === null) {
+    console.log(this.loginService.getUser()?._id);
+    debugger;
+    if (event.hero.trainer === null || event.hero.trainer==='null') {
       this.selectHeroActionEmitter.emit(event);
     }
     if (event.action === ActionType.UNSELECT && event.hero.trainer === this.loginService.getUser()?._id) {
@@ -90,7 +91,7 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
   }
 
   trainHeroAction(hero: HeroModel) {
-
+    debugger;
     hero = this.trainingUtilityService.power$(hero);
 
     this.nextTraining$(hero, 'user action');
@@ -98,7 +99,6 @@ export class CardComponent implements OnChanges, OnInit, AfterViewInit, OnDestro
 
 
   nextTraining$(hero: HeroModel, action: string) {
-
     if (action === 'user action') {
       if (hero.trainingCounter === 0) {
         hero = Object.assign(hero, { trainingCounter: ++hero.trainingCounter, startDate: new Date() });

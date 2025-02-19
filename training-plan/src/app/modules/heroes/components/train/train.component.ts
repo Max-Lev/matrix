@@ -45,6 +45,7 @@ export class TrainComponent implements OnInit, OnDestroy {
   }
 
   trainHeroHandler(action: UpdateHeroAction) {
+    debugger;
     this.formUpdateEventHandler(action);
   }
 

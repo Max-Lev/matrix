@@ -13,7 +13,8 @@ export class AppLogger extends ConsoleLogger {
 
 }
 
-const mongoDbConnection = 'mongodb+srv://maxlevtov:987495Max7003388@trainers.2xaz3yk.mongodb.net/trainers?retryWrites=true&w=majority';
+// const mongoDbConnection = 'mongodb+srv://maxlevtov:987495Max7003388@trainers.2xaz3yk.mongodb.net/trainers?retryWrites=true&w=majority';
+const mongoDbConnection = 'mongodb://localhost:27017/trainers';
 @Module({
   imports: [
     MongooseModule.forRoot(mongoDbConnection),
