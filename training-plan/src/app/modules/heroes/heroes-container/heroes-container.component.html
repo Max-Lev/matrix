@@ -3,9 +3,9 @@
     <button (click)="trainLink()" mat-raised-button color="primary">Train</button>
 </div>
 <!-- <div class="train" [style.visibility]="(isTrainLink) ? 'visible' : 'hidden'"> -->
-    <div class="train" [style.display]="(!isTrainLink) ? 'none' : 'block'">
+    <!-- <div class="train" [style.display]="(!isTrainLink) ? 'none' : 'block'"> -->
     <button (click)="logOut()" mat-raised-button color="primary">Log Out</button>
-</div>
+<!-- </div> -->
 
 <section class="container">
     <ng-container *ngFor="let hero of heroes$ | async">

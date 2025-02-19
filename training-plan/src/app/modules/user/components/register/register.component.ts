@@ -23,12 +23,12 @@ export class RegisterComponent {
   ngOnInit(): void {
 
     this.registerForm = this.formBuilder.group({
-      email: new FormControl('', [
+      email: new FormControl('maxlevtov1@gmail.com', [
         // Validators.required, Validators.minLength(2),
         // Validators.email,
         // Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')
       ]),
-      password: new FormControl('', [
+      password: new FormControl('123456', [
         // Validators.required, Validators.minLength(8),
         // Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
       ])
@@ -49,7 +49,22 @@ export class RegisterComponent {
         }
       });
     }
+  }
 
+  login(registerForm:FormGroup){
+    debugger;
+    this.loginService.manualLogin(registerForm.value)//.subscribe(u=>console.log(u))
+    .subscribe({
+      next:(value)=> {
+        console.log(value);
+        debugger;
+        this.router.navigate(['/heroes']);
+      },
+      error: (err: HttpErrorResponse) => {
+        console.log(err);
+      }
+    }   
+    )
   }
 
 

@@ -16,15 +16,15 @@ export class LoginService {
   private userSubject = new BehaviorSubject<User | null>(null);
 
   constructor(private httpClient: HttpClient) {
-    // localStorage.setItem("user",JSON.stringify({access_token:"",_id:'67b5cedac322b0fe28d1fbab'}));
-   };
+    
+  };
 
 
   setUser(user: User) {
     if (user.access_token) {
       this.isLoggedIn.next(true);
       this.userSubject.next(user);
-    }else{
+    } else {
       this.isLoggedIn.next(false);
       this.userSubject.next(user);
     }
@@ -37,17 +37,16 @@ export class LoginService {
   }
 
   login(formData: { username: string, email: string }): Observable<any> {
-
+    debugger;
     return this.httpClient.post<User>(`${environment.server}/auth/login`, formData)
       .pipe(tap(user => console.log('user response: ', user)))
       .pipe(map(user => {
-        //DEBUGG
+        debugger;
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user)
         return user;
       }));
-
   }
 
   register(formData: { userName: string, password: string }): Observable<any> {
@@ -57,6 +56,29 @@ export class LoginService {
         throw new Error(err);
       })
     );
+  }
+
+  manualLogin(formData: { email: string, password: string }): Observable<any> {
+    debugger;
+    // this.httpClient.post<User>(`${environment.server}/auth/manualLogin`, formData).subscribe();
+    return this.httpClient.post<User>(`${environment.server}/auth/manualLogin`, formData)
+      .pipe(tap(user => console.log('user response: ', user)))
+      .pipe(map(user => {
+        console.log(user);
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userSubject.next(user);
+        debugger;
+        return user;
+        
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+      }))
+      // .subscribe(user=>{
+      //   console.log(user);
+      //   user = user;
+      //   debugger;
+      //   return user;
+      // })
+
   }
 
 }

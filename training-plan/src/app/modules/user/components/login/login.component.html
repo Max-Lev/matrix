@@ -1,58 +1,16 @@
-<!-- <form class="form-container" [formGroup]="loginForm" (ngSubmit)="login()">
-    <mat-form-field class="full-width">
-        <mat-label>User Name</mat-label>
-        <input matInput type="text" formControlName="username">
-        <button type="button" (click)="loginForm.get('username')?.setValue('')" matSuffix mat-icon-button
-            aria-label="User Name">
-            <mat-icon>close</mat-icon>
-        </button>
-    </mat-form-field>
-
-    <mat-form-field class=" full-width">
-        <mat-label>Password</mat-label>
-        <input matInput type="password" formControlName="password">
-        <button type="button" matSuffix mat-icon-button aria-label="Password"
-            (click)="loginForm.get('password')?.setValue('')">
-            <mat-icon>close</mat-icon>
-        </button>
-    </mat-form-field>
-
-    <div class="full-width">
-        <button type="submit" mat-flat-button color="primary">Login</button>
-    </div>
-</form> -->
-
-<!-- <button (click)="g()" type="button" mat-flat-button color="primary">Google</button> -->
 
 <section class="form-container">
+
     <div class="full-width">
-        <!-- <button type="button" (click)="googleLogin()" mat-flat-button color="primary">Login</button> -->
-        <!-- <button id="basic" type="button" mat-button mat-flat-button color="primary"> -->
+        <h3>Social Login</h3>
         <asl-google-signin-button size="large" type="standard" shape="rectangular"
             title="Sign with Google"></asl-google-signin-button>
-        <!-- </button> -->
-
-        <!-- <button (click)="g()">G</button> -->
-
     </div>
-</section>
-<!-- <div class="" id="google-button"></div>. -->
 
-<!-- <script src="https://accounts.google.com/gsi/client" async defer></script>
-<script>
-    function handleCredentialResponse(response) {
-        console.log("Encoded JWT ID token: " + response.credential);
-    }
-    window.onload = function () {
-        google.accounts.id.initialize({
-            client_id: "YOUR_GOOGLE_CLIENT_ID",
-            callback: handleCredentialResponse
-        });
-        google.accounts.id.renderButton(
-            document.getElementById("buttonDiv"),
-            { theme: "outline", size: "large" }  // customization attributes
-        );
-        google.accounts.id.prompt(); // also display the One Tap dialog
-    }
-</script>
-<div id="buttonDiv"></div> -->
+    <section class="full-width">
+        <h3>Manual Login</h3>
+        <app-register></app-register>
+    </section>
+</section>
+
+

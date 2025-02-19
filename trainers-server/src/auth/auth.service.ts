@@ -1,5 +1,5 @@
 
-import { HttpException, HttpStatus, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { User } from 'src/users/models/user.interface';
 import { InjectModel } from '@nestjs/mongoose';
@@ -36,7 +36,7 @@ export class AuthService {
     }
   }
 
-  async IsUserExists(createUserDto: CreateUserDto): Promise<boolean> {
+  async IsUserExists(createUserDto: CreateUserDto | any): Promise<boolean> {
     const list = await this.userModel.find({
       password: createUserDto.password,
       email: createUserDto.email
@@ -58,7 +58,7 @@ export class AuthService {
     if (user) {
 
       const localUserToken: string = this.jwtService.sign({ ...user['_doc'] });
-      
+
       return {
         _id: user._id,
         access_token: localUserToken
@@ -70,14 +70,23 @@ export class AuthService {
 
   }
 
-  async login(user: CreateUserDto): Promise<any> {
-    console.log(user);
-    const payload = { username: user.email, sub: user._id, roles: user?.roles };
-    console.log(payload, this.jwtService.sign(payload))
-    this.jwtService.signAsync(payload);
+  async login(user: CreateUserDto | any): Promise<any> {
+    Logger.log('user: ', user);
+    // const payload = { username: user.email, sub: user._id, roles: user?.roles };
+    // const token = this.jwtService.signAsync(payload);
+    // console.log(payload, this.jwtService.sign(payload))
+    // const token = this.jwtService.sign(payload);
+    // Logger.log('token ', token)
+
+    const _user = await this.userModel.findOne({ email: user.email }).exec();
+    console.log('Logged User: ', _user);
+    
+    const localUserToken: string = this.jwtService.sign({ ..._user['_doc'] });
+
+    Logger.log('token ', localUserToken)
     return {
-      user,
-      access_token: this.jwtService.sign(payload),
+      _id: _user._id,
+      access_token: localUserToken
     };
   }
 

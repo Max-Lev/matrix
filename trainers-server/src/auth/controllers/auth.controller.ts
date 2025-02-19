@@ -1,4 +1,4 @@
-import { Controller, Request, UseGuards, Post, Get, Delete, Put, Body, SetMetadata } from '@nestjs/common';
+import { Controller, Request, UseGuards, Post, Get, Delete, Put, Body, SetMetadata, Logger } from '@nestjs/common';
 import { AuthService } from 'src/auth/auth.service';
 import { CreateUserDto } from '../../users/models/create-user.dto';
 
@@ -6,6 +6,14 @@ import { CreateUserDto } from '../../users/models/create-user.dto';
 export class authController {
   constructor(private readonly authService: AuthService) {
 
+  }
+
+  @Post('manualLogin')
+  async manualLogin(@Body() userLogin:{email:string, password:string}) {
+    const isExists = await this.authService.IsUserExists({email:userLogin.email,password:userLogin.password});
+    if(isExists){
+      return await this.authService.login({email:userLogin.email,password:userLogin.password});
+    }
   }
 
   @Post('login')
@@ -20,6 +28,6 @@ export class authController {
     return this.authService.registerCreate(user);
   }
 
-  
+
 
 }
