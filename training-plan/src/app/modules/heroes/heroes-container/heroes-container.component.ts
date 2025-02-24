@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, AfterViewInit, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Observable, Subject, map, of, takeUntil } from 'rxjs';
+import { Observable, Subject, lastValueFrom, map, of, takeUntil } from 'rxjs';
 import { LoginService } from '../../user/providers/login.service';
 import { HeroModel, ActionType } from '../models/hero.model';
 import { SelectHeroAction } from '../models/update-hero.model';
@@ -37,11 +37,25 @@ export class HeroesContainerComponent implements AfterViewInit, OnInit, OnDestro
 
   ngOnInit(): void {
     this.heroes$ = of(this.activatedRoute.snapshot.data['getAllHeroesResolver'] as HeroModel[]);
+    
+    lastValueFrom(this.heroes$.pipe(map(heroes => {
+      console.log('getAllHeroesResolver: ',heroes);
+      return heroes;
+    })));
+    
+    this.activatedRoute.data.subscribe(data => {
+      const _data = data['getAllHeroesResolver']; // 👈 Automatically updates when route changes
+      console.log('_data: ',_data);
+    });
+
     this.isTrainLinkActive();
   }
 
   ngAfterViewInit(): void {
 
+    const user  = this.loginService.getUser();
+    console.log('user: ', user);
+    
   }
 
   selectHeroActionHandler(event: SelectHeroAction) {

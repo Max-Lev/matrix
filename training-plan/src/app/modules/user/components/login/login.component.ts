@@ -48,7 +48,6 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngAfterViewInit(): void {
     
-    debugger;
     this.socialAuthService.authState.pipe(
       takeWhile(() => this.loginService.loggedIn === true),
       finalize(() => {

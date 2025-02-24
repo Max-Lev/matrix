@@ -45,3 +45,4 @@ training-plan/.angular
 trainers-server/dist
 trainers-server/node_modules
 training-plan/dist
+training-plan/dist/training-plan

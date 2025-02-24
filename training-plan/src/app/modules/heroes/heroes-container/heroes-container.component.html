@@ -7,6 +7,8 @@
     <button (click)="logOut()" mat-raised-button color="primary">Log Out</button>
 <!-- </div> -->
 
+{{heroes$ | async | json}}
+
 <section class="container">
     <ng-container *ngFor="let hero of heroes$ | async">
 
@@ -15,7 +17,7 @@
             <ng-container train>
                 <mat-card-actions>
                     <ng-container *ngIf="hero.trainer===null || hero.trainer==='null';else selected">
-                        <button mat-button (click)="card.selectHeroAction({hero,action:actionType.SELECT})">Select
+                        <button mat-button (click)="card.selectHeroAction({hero,action:actionType.SELECT})">Ready to Train
                         </button>
                     </ng-container>
                     <ng-template #selected>
