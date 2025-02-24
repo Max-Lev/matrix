@@ -1,18 +1,17 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../../providers/login.service';
-import { map, mergeMap, of } from 'rxjs';
-
+import { finalize, map, mergeMap, of, takeWhile, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { GoogleLoginProvider, GoogleSigninButtonDirective, SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
-import { User } from '../../models/user.model';
-// import { GoogleLoginProvider, SocialAuthService } from "angularx-social-login";
+
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit, AfterViewInit {
+export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loginForm: FormGroup;
 
@@ -29,7 +28,6 @@ export class LoginComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
     this.loginForm = this.formBuilder.group({
       username: new FormControl('', [Validators.required, Validators.minLength(2)]),
       password: new FormControl('', [Validators.required, Validators.minLength(8),
@@ -37,69 +35,44 @@ export class LoginComponent implements OnInit, AfterViewInit {
       ])
     });
 
+    setTimeout(() => {
+      this.loginService.loggedIn = true;
+    }, 3000);
+
   }
 
-  g() {
-    this.socialAuthService.signIn(GoogleLoginProvider.PROVIDER_ID).then(user => { console.log('user: ', user); })
+  ngOnDestroy(): void {
+
   }
+
 
   ngAfterViewInit(): void {
-
+    
+    debugger;
     this.socialAuthService.authState.pipe(
-      map((socialUser: SocialUser) => {
-        if (socialUser !== null) {
-
-          console.log('socialUser: ', socialUser);
+      takeWhile(() => this.loginService.loggedIn === true),
+      finalize(() => {
+        console.log('Stopped listening to authState');
+        return;
+      }),
+      tap((socialUser: SocialUser) => {
+        if (socialUser) {
           this.loginService.setUser({ access_token: socialUser.idToken, _id: socialUser.id });
-
-          this.loggedIn = true;
-          return socialUser;
         }
-        return socialUser;
       }),
       mergeMap((socialUser: SocialUser) => {
         return this.loginService.login({ username: socialUser.name, email: socialUser.email })
       })
-    ).subscribe((registeresUser: { _id: string, access_token: string }) => {
+    ).subscribe((registeresUser: { _id: string, access_token: string } | any) => {
+      // this.loginService.loggedIn = true;
       this.loginService.setUser(registeresUser);
-      console.log('socialAuthService response registeresUser', registeresUser);
-      const u = new User(registeresUser);
-      this.router.navigate(['/heroes']);
-    });
-  }
-
-  async handleCredentialResponse(response: {
-    clientId: string, client_id: string,
-    credential: string, select_by: string
-  }) {
-    // Here will be your response from Google.
-    console.log(response);
-    of(response).pipe(
-      map((response) => {
-        if (response !== null) {
-          console.log('socialUser: ', response);
-
-          this.loginService.setUser({ access_token: response.credential, _id: response.client_id });
-
-          this.loggedIn = true;
-          return response;
-        }
-        return response as any;
-      }),
-      mergeMap((socialUser: SocialUser) => {
-        return this.loginService.login({ username: socialUser.name, email: socialUser.email })
-      })
-    ).subscribe((registeresUser: { _id: string, access_token: string }) => {
-      this.loginService.setUser(registeresUser);
-      console.log('handleCredentialResponse response registeresUser', registeresUser);
-      const u = new User(registeresUser);
+      // console.log('socialAuthService response registeresUser', registeresUser);
       this.router.navigate(['/heroes']);
     });
   }
 
   getAccessToken(): void {
     this.socialAuthService.getAccessToken(GoogleLoginProvider.PROVIDER_ID).then(accessToken => {
-      console.log('getAccessToken ', accessToken);
       this.accessToken = accessToken;
     });
   }

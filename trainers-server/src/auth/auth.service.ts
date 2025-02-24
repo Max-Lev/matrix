@@ -50,11 +50,11 @@ export class AuthService {
   async getGoogleToken(decodedToken: string): Promise<{ _id: string, access_token: string }> {
 
     const details: { [email: string]: string } | string = this.jwtService.decode(decodedToken);
-    console.log('user details', details);
+    Logger.log('user details', details, Date.now());
 
     const user = await this.userModel.findOne({ email: details['email'] }).exec();
 
-    console.log('Logged User: ', user);
+    Logger.log('Logged User: ', user, Date.now());
     if (user) {
 
       const localUserToken: string = this.jwtService.sign({ ...user['_doc'] });
@@ -80,7 +80,7 @@ export class AuthService {
 
     const _user = await this.userModel.findOne({ email: user.email }).exec();
     console.log('Logged User: ', _user);
-    
+
     const localUserToken: string = this.jwtService.sign({ ..._user['_doc'] });
 
     Logger.log('token ', localUserToken)

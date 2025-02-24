@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { LoginService } from '../../providers/login.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,6 +13,8 @@ import { catchError, throwError } from 'rxjs';
 export class RegisterComponent {
 
   registerForm: FormGroup;
+
+  @Input() isRegister = true;
 
   constructor(private formBuilder: FormBuilder,
     private router: Router, private activatedRoute: ActivatedRoute,
@@ -40,7 +42,6 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       this.loginService.register(this.registerForm.value).subscribe({
         next: (data) => {
-          console.log(data)
           this.router.navigate(['user/login']);
         },
         error: (err) => {
@@ -51,20 +52,17 @@ export class RegisterComponent {
     }
   }
 
-  login(registerForm:FormGroup){
-    debugger;
-    this.loginService.manualLogin(registerForm.value)//.subscribe(u=>console.log(u))
-    .subscribe({
-      next:(value)=> {
-        console.log(value);
-        debugger;
+  manualLogin(registerForm: FormGroup) {
+
+    this.loginService.manualLogin(registerForm.value).subscribe({
+      next: (value) => {
         this.router.navigate(['/heroes']);
       },
       error: (err: HttpErrorResponse) => {
         console.log(err);
       }
-    }   
-    )
+    });
+
   }
 
 

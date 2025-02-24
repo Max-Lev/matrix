@@ -18,7 +18,6 @@ export class TrainingUtilityService {
     const currentPower = +(hero.startingPower * boost).toFixed(3);
 
     hero = Object.assign(hero, { currentPower: currentPower });
-    debugger;
     return hero;
 
   }

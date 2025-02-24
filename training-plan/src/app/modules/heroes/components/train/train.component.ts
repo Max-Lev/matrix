@@ -45,7 +45,6 @@ export class TrainComponent implements OnInit, OnDestroy {
   }
 
   trainHeroHandler(action: UpdateHeroAction) {
-    debugger;
     this.formUpdateEventHandler(action);
   }
 
@@ -53,9 +52,7 @@ export class TrainComponent implements OnInit, OnDestroy {
 
     let _hero: HeroModel = { ...action.hero, ...action.payload };
     // _hero = this.trainingUtilityService.power$(_hero);
-    debugger;
     this.heroesService.updateHero$(_hero).subscribe((heroResponse: HeroModel) => {
-      debugger;
       console.log('heroResponse ', heroResponse);
       this.setHeroesState(action, heroResponse);
     });

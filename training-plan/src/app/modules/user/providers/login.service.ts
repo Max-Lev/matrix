@@ -15,6 +15,8 @@ export class LoginService {
 
   private userSubject = new BehaviorSubject<User | null>(null);
 
+  loggedIn = true;
+
   constructor(private httpClient: HttpClient) {
     
   };
@@ -32,16 +34,14 @@ export class LoginService {
 
   getUser(): User | null {
     const user = this.userSubject.getValue() || JSON.parse(localStorage.getItem('user') || '{}');
-    console.log('user: ', user);
     return user;
   }
 
   login(formData: { username: string, email: string }): Observable<any> {
-    debugger;
     return this.httpClient.post<User>(`${environment.server}/auth/login`, formData)
-      .pipe(tap(user => console.log('user response: ', user)))
+      // .pipe(tap(user => console.log('server user response: ', user)))
       .pipe(map(user => {
-        debugger;
+        this.loggedIn = true;
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user)
@@ -59,25 +59,15 @@ export class LoginService {
   }
 
   manualLogin(formData: { email: string, password: string }): Observable<any> {
-    debugger;
-    // this.httpClient.post<User>(`${environment.server}/auth/manualLogin`, formData).subscribe();
+    
     return this.httpClient.post<User>(`${environment.server}/auth/manualLogin`, formData)
-      .pipe(tap(user => console.log('user response: ', user)))
+      // .pipe(tap(user => console.log('user response: ', user)))
       .pipe(map(user => {
-        console.log(user);
+        // console.log(user);
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
-        debugger;
         return user;
-        
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
-      }))
-      // .subscribe(user=>{
-      //   console.log(user);
-      //   user = user;
-      //   debugger;
-      //   return user;
-      // })
+      }));
 
   }
 

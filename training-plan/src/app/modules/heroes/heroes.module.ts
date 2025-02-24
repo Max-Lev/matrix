@@ -37,6 +37,6 @@ import { OrderbyPipe } from './pipes/orderby.pipe';
 })
 export class HeroesModule { 
   constructor(){
-    console.log('HeroesModule')
+    
   }
 }

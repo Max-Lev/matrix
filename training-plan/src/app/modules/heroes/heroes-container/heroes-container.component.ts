@@ -73,20 +73,10 @@ export class HeroesContainerComponent implements AfterViewInit, OnInit, OnDestro
   }
 
   logOut() {
-    debugger;
-    this.socialAuthService.authState
-    // .pipe(map((state) => {
-    //   console.log(state);
-    // }))
-    .subscribe(state => {
-      console.log(state)
-    })
-    console.log(this.socialAuthService.authState);
+    this.loginService.loggedIn = false;
     localStorage.removeItem('user');
     this.loginService.setUser(new User());
     this.router.navigate(['user']);
-    // });
-
   }
 
 }

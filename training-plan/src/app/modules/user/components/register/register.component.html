@@ -17,10 +17,16 @@
         </button>
     </mat-form-field>
 
-    <div class="full-width">
-        <button type="submit" mat-flat-button color="primary">Register</button>
-    </div>
-    <div class="full-width">
-        <button type="button" (click)="login(registerForm)" mat-flat-button color="primary">Login</button>
-    </div>
+    <ng-container *ngIf="isRegister; else loginTemplate">
+        <div class="full-width">
+            <button type="submit" mat-flat-button color="primary">Register</button>
+        </div>
+    </ng-container>
+
+    <ng-template #loginTemplate>
+        <div class="full-width">
+            <button type="button" (click)="manualLogin(registerForm)" mat-flat-button color="primary">Login</button>
+        </div>
+    </ng-template>
+
 </form>

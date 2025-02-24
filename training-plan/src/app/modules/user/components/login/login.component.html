@@ -1,16 +1,13 @@
-
 <section class="form-container">
 
     <div class="full-width">
-        <h3>Social Login</h3>
+        <h4>Social Login</h4>
         <asl-google-signin-button size="large" type="standard" shape="rectangular"
             title="Sign with Google"></asl-google-signin-button>
     </div>
 
     <section class="full-width">
-        <h3>Manual Login</h3>
-        <app-register></app-register>
+        <h4>User Login</h4>
+        <app-register [isRegister]="false"></app-register>
     </section>
 </section>
-
-
