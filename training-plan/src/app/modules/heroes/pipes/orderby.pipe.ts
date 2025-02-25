@@ -3,7 +3,8 @@ import { HeroModel } from '../models/hero.model';
 import { Observable, of } from 'rxjs';
 
 @Pipe({
-  name: 'orderBy'
+  name: 'orderBy',
+  pure:true,
 })
 export class OrderbyPipe implements PipeTransform {
 
@@ -13,9 +14,13 @@ export class OrderbyPipe implements PipeTransform {
     value.subscribe(list => {
       heroes$ = list.sort((a, b) => {
         if (a.currentPower > b.currentPower) {
-          return 1;
+          console.log(a ,'>', b)
+          return -11;
+          // return 1;
         } else if (a.currentPower < b.currentPower) {
-          return -1;
+          console.log(a ,'-1', b)
+          // return -1;
+          return 1;
         } else {
           return 0;
         }

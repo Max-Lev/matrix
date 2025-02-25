@@ -10,6 +10,7 @@ export class HeroModel {
     startingPower: number;
     currentPower: number;
     trainingCounter:number;
+    trainerName?:string;
 }
 
 export enum AbilityEnum {

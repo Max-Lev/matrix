@@ -18,8 +18,8 @@ const mongoDbConnection = 'mongodb://localhost:27017/trainers';
 @Module({
   imports: [
     MongooseModule.forRoot(mongoDbConnection),
-    HeroesModule,
     AuthModule,
+    HeroesModule,
   ],
   controllers: [AppController],
   providers: [

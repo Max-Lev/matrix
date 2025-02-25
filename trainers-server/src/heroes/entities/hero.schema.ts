@@ -11,5 +11,6 @@ export const HeroesSchema = new mongoose.Schema({
     suit: Number,
     startingPower: Number,
     currentPower: Number,
-    trainingCounter: Number
+    trainingCounter: Number,
+    trainerName:String
 });

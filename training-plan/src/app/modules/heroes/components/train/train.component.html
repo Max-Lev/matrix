@@ -4,7 +4,7 @@
 
 <section class="container">
 
-    <ng-container *ngFor="let hero of (heroes$ | orderBy | async ) as HeroModel">
+    <ng-container *ngFor="let hero of (heroes$ | orderBy | async ) as HeroModel; let i = index">
         
         <app-card #card (trainHeroEmitter)="trainHeroHandler($event)" (formUpdateEvent)="formUpdateEventHandler($event)"
             [hero]="hero" [suits]="suits" [abilities]="abilities">
@@ -42,7 +42,7 @@
                         <div>
                             <h3>Starting Power: {{card.hero.startingPower}}</h3>
                             <ng-container *ngIf="card.hero.currentPower">
-                                <h3>Current Power: {{card.hero.currentPower }}</h3>
+                                <h3 [ngStyle]="{'color': i===0 ? 'green' : 'black'}">Current Power: {{card.hero.currentPower }}</h3>
                             </ng-container>
                         </div>
                     </mat-card-content>

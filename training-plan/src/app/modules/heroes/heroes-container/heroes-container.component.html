@@ -23,7 +23,7 @@
                     </ng-container>
                     <ng-template #selected>
                         <button mat-button disabled="{{hero?.trainer!==user?._id}}"
-                            (click)="card.selectHeroAction({hero,action:actionType.UNSELECT})">Training</button>
+                            (click)="card.selectHeroAction({hero,action:actionType.UNSELECT})">Training by {{hero?.trainerName}}</button>
                     </ng-template>
                 </mat-card-actions>
             </ng-container>

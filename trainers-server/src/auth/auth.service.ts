@@ -84,7 +84,7 @@ export class AuthService {
 
     const localUserToken: string = this.jwtService.sign({ ..._user['_doc'] });
 
-    Logger.log('token ', localUserToken)
+    Logger.log('Token ', localUserToken)
     return {
       _id: _user._id,
       access_token: localUserToken,
