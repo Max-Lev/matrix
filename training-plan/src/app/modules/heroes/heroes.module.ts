@@ -12,13 +12,15 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { TrainingUtilityService } from './providers/training-utility.service';
 import { OrderbyPipe } from './pipes/orderby.pipe';
+import { TraineesCounterPipe } from './pipes/trainees-counter.pipe';
 
 @NgModule({
   declarations: [
     HeroesContainerComponent,
     CardComponent,
     TrainComponent,
-    OrderbyPipe
+    OrderbyPipe,
+    TraineesCounterPipe
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { OrderbyPipe } from './pipes/orderby.pipe';
   ],
   providers: [
     TrainingUtilityService,
-    OrderbyPipe
+    OrderbyPipe,
+    TraineesCounterPipe
   ]
 })
 export class HeroesModule { 

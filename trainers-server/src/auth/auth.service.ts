@@ -47,7 +47,7 @@ export class AuthService {
 
   }
 
-  async getGoogleToken(decodedToken: string): Promise<{ _id: string, access_token: string }> {
+  async getGoogleToken(decodedToken: string): Promise<{ _id: string, access_token: string, email?: string }> {
 
     const details: { [email: string]: string } | string = this.jwtService.decode(decodedToken);
     Logger.log('user details', details, Date.now());
@@ -61,7 +61,8 @@ export class AuthService {
 
       return {
         _id: user._id,
-        access_token: localUserToken
+        access_token: localUserToken,
+        email: user.email
       }
 
     } else {
@@ -79,14 +80,15 @@ export class AuthService {
     // Logger.log('token ', token)
 
     const _user = await this.userModel.findOne({ email: user.email }).exec();
-    console.log('Logged User: ', _user);
+    Logger.log('Logged User: ', _user);
 
     const localUserToken: string = this.jwtService.sign({ ..._user['_doc'] });
 
     Logger.log('token ', localUserToken)
     return {
       _id: _user._id,
-      access_token: localUserToken
+      access_token: localUserToken,
+      email: _user.email
     };
   }
 

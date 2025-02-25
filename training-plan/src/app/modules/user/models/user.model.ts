@@ -2,6 +2,7 @@
 export class User {
     access_token: string;
     _id: string;
+    email?:string;
     constructor(user?: User) {
         Object.assign(this, user);
         console.log('user', this);

@@ -1,13 +1,13 @@
-<!-- <div class="train" [style.visibility]="(isTrainLink) ? 'visible' : 'hidden'"> -->
-<div class="train" [style.display]="(!isTrainLink) ? 'none' : 'block'">
-    <button (click)="trainLink()" mat-raised-button color="primary">Train</button>
-</div>
-<!-- <div class="train" [style.visibility]="(isTrainLink) ? 'visible' : 'hidden'"> -->
-    <!-- <div class="train" [style.display]="(!isTrainLink) ? 'none' : 'block'"> -->
+<section class="welcome">
+    <label>Welcome, </label>
+    <h3>{{user?.email | uppercase}}</h3>
+</section>
+<section class="container info">
+    <button disabled="{{counter===0}}" (click)="trainLink()" mat-raised-button color="primary">Train
+        {{counter}}</button>
     <button (click)="logOut()" mat-raised-button color="primary">Log Out</button>
-<!-- </div> -->
 
-{{heroes$ | async | json}}
+</section>
 
 <section class="container">
     <ng-container *ngFor="let hero of heroes$ | async">
@@ -17,11 +17,12 @@
             <ng-container train>
                 <mat-card-actions>
                     <ng-container *ngIf="hero.trainer===null || hero.trainer==='null';else selected">
-                        <button mat-button (click)="card.selectHeroAction({hero,action:actionType.SELECT})">Ready to Train
+                        <button mat-button (click)="card.selectHeroAction({hero,action:actionType.SELECT})">Ready to
+                            Train
                         </button>
                     </ng-container>
                     <ng-template #selected>
-                        <button mat-button
+                        <button mat-button disabled="{{hero?.trainer!==user?._id}}"
                             (click)="card.selectHeroAction({hero,action:actionType.UNSELECT})">Training</button>
                     </ng-template>
                 </mat-card-actions>

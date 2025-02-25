@@ -13,8 +13,8 @@ async function bootstrap() {
     let send = res.send;
     console.log(chalk.yellow('REQUST: ', req.url))
     res.send = R => {
-      console.log(chalk.green(`RESPONSE STATUS CODE: ${res.statusCode}`));
-      console.log(chalk.blue('RESPONSE', R));
+      // console.log(chalk.green(`RESPONSE STATUS CODE: ${res.statusCode}`));
+      // console.log(chalk.blue('RESPONSE', R));
       res.send = send;
 
       return res.send(R);

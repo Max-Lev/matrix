@@ -7,6 +7,7 @@ import { SelectHeroAction } from '../models/update-hero.model';
 import { HeroesService } from '../providers/heroes.service';
 import { User } from '../../user/models/user.model';
 import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { TraineesCounterPipe } from '../pipes/trainees-counter.pipe';
 
 @Component({
   selector: 'app-heroes-container',
@@ -24,9 +25,16 @@ export class HeroesContainerComponent implements AfterViewInit, OnInit, OnDestro
 
   stop$ = new Subject<boolean>();
 
+  counter: number = 0;
+
+  user: User | null;
+
+  _data: HeroModel[] = [];
+
   constructor(private heroesService: HeroesService, private router: Router,
     private loginService: LoginService, private changeDetector: ChangeDetectorRef,
     private socialAuthService: SocialAuthService,
+    private traineesCounter: TraineesCounterPipe,
     private activatedRoute: ActivatedRoute) {
 
   }
@@ -37,15 +45,14 @@ export class HeroesContainerComponent implements AfterViewInit, OnInit, OnDestro
 
   ngOnInit(): void {
     this.heroes$ = of(this.activatedRoute.snapshot.data['getAllHeroesResolver'] as HeroModel[]);
-    
-    lastValueFrom(this.heroes$.pipe(map(heroes => {
-      console.log('getAllHeroesResolver: ',heroes);
-      return heroes;
-    })));
-    
-    this.activatedRoute.data.subscribe(data => {
-      const _data = data['getAllHeroesResolver']; // 👈 Automatically updates when route changes
-      console.log('_data: ',_data);
+
+    this.user = this.loginService.getUser();
+    console.log('user: ', this.user);
+
+    this.activatedRoute.data.subscribe((users) => {
+      this._data = users['getAllHeroesResolver']; // 👈 Automatically updates when route changes
+      this.counter = this.traineesCounter.transform(this._data, this.user!);
+      this.changeDetector.markForCheck();
     });
 
     this.isTrainLinkActive();
@@ -53,18 +60,16 @@ export class HeroesContainerComponent implements AfterViewInit, OnInit, OnDestro
 
   ngAfterViewInit(): void {
 
-    const user  = this.loginService.getUser();
-    console.log('user: ', user);
-    
   }
 
   selectHeroActionHandler(event: SelectHeroAction) {
-
+    
     this.heroesService.selectHero$(event).pipe(takeUntil(this.stop$)).subscribe((heroResponse: HeroModel) => {
 
       this.heroes$.forEach((heroes: HeroModel[]) => heroes.map((hero: HeroModel) => {
         if (hero._id === heroResponse._id) {
           hero = Object.assign(hero, { ...heroResponse });
+          this.counter = this.traineesCounter.transform(this._data, this.user!);
         }
         return hero;
       }));
