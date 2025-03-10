@@ -1,51 +1,47 @@
-
-// import { NestFactory } from '@nestjs/core';
-// import { ExpressAdapter } from '@nestjs/platform-express';
-// import { AppModule } from './app.module';
-// import * as express from 'express';
-// import * as functions from 'firebase-functions';
-
-// const server = express();
-
-// export const createNestServer = async (expressInstance) => {
-//     const app = await NestFactory.create(
-//         AppModule,
-//         new ExpressAdapter(expressInstance),
-//     );
-
-//     return app.init();
-// };
-
-
-
-// createNestServer(server)
-//     .then(v => console.log('Nest Ready'))
-//     .catch(err => console.error('Nest broken', err));
-
-// export const api = functions.https.onRequest(server);
-
-
-import { NestFactory } from '@nestjs/core';
-import { ExpressAdapter } from '@nestjs/platform-express';
+import { NestFactory } from "@nestjs/core";
+import { ExpressAdapter } from "@nestjs/platform-express";
+import { onRequest } from "firebase-functions/https";
+import { AppModule } from "./app.module";
 import * as express from 'express';
-import { AppLogger, AppModule } from './app.module';
-import * as functions from 'firebase-functions';
-const expressServer = express();
-const createFunction = async (expressInstance): Promise<void> => {
+const cors = require("cors");
+
+const createFunction = async (expressServer: express.Express) => {
+
     const app = await NestFactory.create(
         AppModule,
-        new ExpressAdapter(expressInstance)
-        // {
-        //     cors: true,
-        //     logger: new AppLogger(),
-        // }
+        new ExpressAdapter(expressServer),
+        { cors: true },
+
     );
+    app.use(cors({ origin: true }));
     app.enableCors({
-        origin: ['https://express-api-bc1da.web.app/','https://express-api-bc1da.firebaseapp.com/']
+        origin: [
+            'http://localhost:4200',
+            'https://express-api-bc1da.web.app/',
+            'https://express-api-bc1da.firebaseapp.com/'
+        ],
+        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+        allowedHeaders: 'Content-Type, Authorization',
+        credentials: true,
+    });
+    app.use((req, res, next) => {
+        res.header('Access-Control-Allow-Origin', '*'); // Change to specific domain for security
+        res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS');
+        res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        res.header('Access-Control-Allow-Credentials', 'true');
+        if (req.method === 'OPTIONS') {
+            return res.sendStatus(204);
+        }
+        next();
     });
     await app.init();
 };
-export const api = functions.https.onRequest(async (request, response) => {
-    await createFunction(expressServer);
-    expressServer(request, response);
-});
+
+export const api2 = onRequest({ region: 'us-central1' },
+    async (req, res) => {
+        const expressServer = express(); // Create a fresh instance for each request
+        await createFunction(expressServer);
+        expressServer(req, res);
+    }
+);
+

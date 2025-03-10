@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { environment } from 'src/environments/environment';
 import { GoogleUser, User } from '../models/user.model';
-import { BehaviorSubject, Observable, tap, map, catchError } from 'rxjs';
+import { BehaviorSubject, Observable, tap, map, catchError, of, EMPTY, throwError } from 'rxjs';
 
 
 @Injectable({
@@ -18,7 +18,7 @@ export class LoginService {
   loggedIn = true;
 
   constructor(private httpClient: HttpClient) {
-    
+
   };
 
 
@@ -38,8 +38,13 @@ export class LoginService {
   }
 
   login(formData: { username: string, email: string }): Observable<any> {
+
     return this.httpClient.post<User>(`${environment.server}/auth/login`, formData)
-      // .pipe(tap(user => console.log('server user response: ', user)))
+      .pipe(
+        catchError(err => {
+         return throwError(()=>new Error(err))
+        })
+      )
       .pipe(map(user => {
         this.loggedIn = true;
         // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -59,11 +64,9 @@ export class LoginService {
   }
 
   manualLogin(formData: { email: string, password: string }): Observable<any> {
-    
+
     return this.httpClient.post<User>(`${environment.server}/auth/manualLogin`, formData)
-      // .pipe(tap(user => console.log('user response: ', user)))
       .pipe(map(user => {
-        // console.log(user);
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
         return user;

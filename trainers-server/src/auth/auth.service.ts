@@ -50,11 +50,11 @@ export class AuthService {
   async getGoogleToken(decodedToken: string): Promise<{ _id: string, access_token: string, email?: string }> {
 
     const details: { [email: string]: string } | string = this.jwtService.decode(decodedToken);
-    Logger.log('user details', details, Date.now());
+    Logger.log('user details', details);
 
-    const user = await this.userModel.findOne({ email: details['email'] }).exec();
+    const user:any = await this.userModel.findOne({ email: details['email'] }).exec();
 
-    Logger.log('Logged User: ', user, Date.now());
+    Logger.log('Logged User: ', user);
     if (user) {
 
       const localUserToken: string = this.jwtService.sign({ ...user['_doc'] });

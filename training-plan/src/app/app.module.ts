@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { ReactiveFormsModule } from '@angular/forms';
 import { JwtInterceptor } from './jwt.interceptor';
 import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx-social-login';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,7 @@ import { GoogleLoginProvider, SocialAuthServiceConfig } from '@abacritt/angularx
           {
             id: GoogleLoginProvider.PROVIDER_ID,
             provider: new GoogleLoginProvider(
-              '429041238969-slhmsmnhj4imi93g2vka73tpof0p5iup.apps.googleusercontent.com',
+              environment.clientID,
               {
                 oneTapEnabled: false
               }

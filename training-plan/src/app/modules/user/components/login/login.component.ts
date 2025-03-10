@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from '../../providers/login.service';
-import { finalize, map, mergeMap, of, takeWhile, tap } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { GoogleLoginProvider, GoogleSigninButtonDirective, SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
+import { catchError, finalize, mergeMap, of, takeWhile, tap } from 'rxjs';
+import {  Router } from '@angular/router';
+import { GoogleLoginProvider, SocialAuthService, SocialUser } from "@abacritt/angularx-social-login";
 
 
 @Component({
@@ -15,7 +15,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loginForm: FormGroup;
 
-  private accessToken = '';
+  // private accessToken = '';
 
   user: any;
 
@@ -31,8 +31,7 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loginForm = this.formBuilder.group({
       username: new FormControl('', [Validators.required, Validators.minLength(2)]),
       password: new FormControl('', [Validators.required, Validators.minLength(8),
-      Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')
-      ])
+      Validators.pattern('^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$')])
     });
 
     setTimeout(() => {
@@ -47,10 +46,16 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   ngAfterViewInit(): void {
-    
+
     this.socialAuthService.authState.pipe(
+      catchError((err) => {
+        return of(err);
+      }),
       takeWhile(() => this.loginService.loggedIn === true),
       finalize(() => {
+        if(this.loginService.loggedIn){
+          this.loginForm.setErrors({ 'invalid': true });
+        }
         console.log('Stopped listening to authState');
         return;
       }),
@@ -63,23 +68,23 @@ export class LoginComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.loginService.login({ username: socialUser.name, email: socialUser.email })
       })
     ).subscribe((registeresUser: { _id: string, access_token: string } | any) => {
-      // this.loginService.loggedIn = true;
+      
       this.loginService.setUser(registeresUser);
-      // console.log('socialAuthService response registeresUser', registeresUser);
       this.router.navigate(['/heroes']);
     });
   }
 
-  getAccessToken(): void {
-    this.socialAuthService.getAccessToken(GoogleLoginProvider.PROVIDER_ID).then(accessToken => {
-      this.accessToken = accessToken;
-    });
-  }
+  // getAccessToken(): void {
+  //   this.socialAuthService.getAccessToken(GoogleLoginProvider.PROVIDER_ID).then(accessToken => {
+  //     this.accessToken = accessToken;
+  //   });
+  // }
 
-  refreshToken(): void {
-    this.socialAuthService.refreshAccessToken(GoogleLoginProvider.PROVIDER_ID);
+  // refreshToken(): void {
+  //   this.socialAuthService.refreshAccessToken(GoogleLoginProvider.PROVIDER_ID);
 
-  }
+  // }
+
 
 
 }
