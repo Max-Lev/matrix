@@ -11,7 +11,7 @@
             "skipFiles": [
                 "<node_internals>/**"
             ],
-            "program": "${workspaceFolder}/trainers-server/src/heroes/heroes.controller.ts",
+            "program": "${workspaceFolder}/server/src/heroes/heroes.controller.ts",
             "outFiles": [
                 "${workspaceFolder}/**/*.js"
             ]

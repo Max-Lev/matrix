@@ -13,10 +13,10 @@ async function bootstrap() {
     const app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
     app.use((req, res, next) => {
       let send = res.send;
-      console.log('REQUST: ', req.url);
+      // console.log('REQUST: ', req.url);
       res.send = R => {
-        console.log(`RESPONSE STATUS CODE: ${res.statusCode}`);
-        console.log('RESPONSE', R);
+        // console.log(`RESPONSE STATUS CODE: ${res.statusCode}`);
+        // console.log('RESPONSE', R);
         res.send = send;
         return res.send(R);
       }

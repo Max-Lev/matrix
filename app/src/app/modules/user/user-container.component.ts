@@ -39,19 +39,19 @@ export class UserContainerComponent implements AfterViewInit, OnInit ,OnDestroy{
   setActiveTab$() {
     this.router.events.pipe(filter(event => event instanceof NavigationEnd)).subscribe(d => {
       const path = this.activeRoute.snapshot.firstChild?.routeConfig?.path;
-      const activeTab = this.matTabGroup._tabs['_results'].findIndex((tab: MatTab) => tab.textLabel === path);
+      const activeTab = this.matTabGroup._tabs['_results'].findIndex((tab: MatTab) => tab.textLabel.toLocaleLowerCase() === path);
       this.matTabGroup.selectedIndex = activeTab;
     });
   }
 
   setDefaultTab() {
     const path = this.activeRoute.snapshot.firstChild?.routeConfig?.path;
-    const activeTab = this.matTabGroup._tabs.find(tab => tab.textLabel === path)!;
+    const activeTab = this.matTabGroup._tabs.find(tab => tab.textLabel.toLocaleLowerCase() === path)!;
     this.matTabGroup.selectedIndex = activeTab.position!;
   }
 
   selectedTabChange(action: MatTabChangeEvent) {
-    this.router.navigate([`${action.tab.textLabel}`], { relativeTo: this.activeRoute });
+    this.router.navigate([`${action.tab.textLabel.toLocaleLowerCase()}`], { relativeTo: this.activeRoute });
   }
 
 

@@ -1,11 +1,13 @@
-import { Controller, Get, Post, Body, Query, UseGuards, Logger } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, UseGuards, Logger, UseInterceptors } from '@nestjs/common';
 import { SelectHeroRequest, SelectHeroDto } from './dto/select-hero.dto';
 import { HeroModel } from './entities/hero.entity';
 import { HeroesService } from './heroes.service';
 import { OptionsModel } from './entities/options.schema';
 import { JWTAuthGuard } from 'src/auth/guard/auth.guard';
 import { AuthGuard } from '@nestjs/passport';
+import { CacheInterceptor } from '@nestjs/cache-manager';
 // @UseGuards(JWTAuthGuard)
+// @UseInterceptors(CacheInterceptor)
 @Controller('heroes')
 export class HeroesController {
   constructor(private readonly heroesService: HeroesService) { }
