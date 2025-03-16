@@ -13,6 +13,7 @@ import { NgModule } from '@angular/core';
 import { TrainingUtilityService } from './providers/training-utility.service';
 import { OrderbyPipe } from './pipes/orderby.pipe';
 import { TraineesCounterPipe } from './pipes/trainees-counter.pipe';
+import { IsSelectedGuard } from './is-selected.guard';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { TraineesCounterPipe } from './pipes/trainees-counter.pipe';
   providers: [
     TrainingUtilityService,
     OrderbyPipe,
-    TraineesCounterPipe
+    TraineesCounterPipe,
+    IsSelectedGuard
   ]
 })
 export class HeroesModule { 

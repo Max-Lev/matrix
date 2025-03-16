@@ -13,7 +13,7 @@ import { LoginComponent } from './components/login/login.component';
 })
 export class UserContainerComponent implements AfterViewInit, OnInit ,OnDestroy{
 
-  links = ['login', 'register'];
+  links = ['Login', 'Register'];
 
   @ViewChild('matTabGroup') matTabGroup!: MatTabGroup;
 

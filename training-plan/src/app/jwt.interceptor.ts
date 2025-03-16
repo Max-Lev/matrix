@@ -29,12 +29,10 @@ export class JwtInterceptor implements HttpInterceptor {
           Authorization: `${token}`
         }
       });
-      // console.log('request ', request);
     }
 
     return next.handle(request)
       .pipe(
-
         map((event: any) => {
           if ((event instanceof HttpResponse) && event.body && event.body['access_token']) {
             this.loginService.setUser(event.body['access_token']);
@@ -48,10 +46,12 @@ export class JwtInterceptor implements HttpInterceptor {
             errorMsg = `Error: ${error.error.message}`;
           } else {
             errorMsg = `Error Code: ${error.status},  Message: ${error.message}`;
-            if (error.error.statusCode === 401) {
+            if (error.error.statusCode === 401 || 404) {
               // this.router.navigate(['/'])
+              console.log(error.error);
               this.router.navigate(['/user/login']);
-              return throwError(() => new Error(error.error));
+              // return throwError(() => new Error(error.error));
+              return throwError(() => error.error);
             }
           }
           return throwError(() => errorMsg);

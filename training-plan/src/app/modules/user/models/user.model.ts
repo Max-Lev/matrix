@@ -5,7 +5,6 @@ export class User {
     email?:string;
     constructor(user?: User) {
         Object.assign(this, user);
-        console.log('user', this);
     }
 
 }

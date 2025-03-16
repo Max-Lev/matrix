@@ -3,6 +3,7 @@
     <h3>{{user?.email | uppercase}}</h3>
 </section>
 <section class="container info">
+    
     <button disabled="{{counter===0}}" (click)="trainLink()" mat-raised-button color="primary">Train
         {{counter}}</button>
     <button (click)="logOut()" mat-raised-button color="primary">Log Out</button>

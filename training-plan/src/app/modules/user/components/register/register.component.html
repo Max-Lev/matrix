@@ -1,4 +1,5 @@
-<form class="form-container" [formGroup]="registerForm" (ngSubmit)="register()">
+<!-- <form class="form-container" [formGroup]="registerForm" (ngSubmit)="register()"> -->
+<form class="form-container" [formGroup]="registerForm" >
     <mat-form-field class="full-width">
         <mat-label>Email</mat-label>
         <input matInput type="email" formControlName="email" email="true">
@@ -19,13 +20,13 @@
 
     <ng-container *ngIf="isRegister; else loginTemplate">
         <div class="full-width">
-            <button type="submit" mat-flat-button color="primary">Register</button>
+            <button type="submit" mat-flat-button color="primary" (click)="register()">Register</button>
         </div>
     </ng-container>
 
     <ng-template #loginTemplate>
         <div class="full-width">
-            <button type="button" (click)="manualLogin(registerForm)" mat-flat-button color="primary">Login</button>
+            <button type="submit" (click)="manualLogin(registerForm)" mat-flat-button color="primary">Login</button>
         </div>
     </ng-template>
 

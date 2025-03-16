@@ -23,18 +23,18 @@
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",
     "deploy": "firebase deploy --only functions:log",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "dev":"NODE_ENV=development npm run start:dev",
+    "prod":"NODE_ENV=production npm run start:prod"
+
   },
   "engines": {
     "node": "18"
   },
   "main": "dist/index.js",
   "dependencies": {
-
     "@nestjs/jwt": "^10.0.3",
-    
     "@nestjs/passport": "^9.0.3",
-    
     "@nestjs/typeorm": "^9.0.1",
     "@types/set-tz": "^0.2.0",
     "chalk": "^4.1.2",

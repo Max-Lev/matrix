@@ -47,10 +47,8 @@ export class HeroesContainerComponent implements AfterViewInit, OnInit, OnDestro
     this.heroes$ = of(this.activatedRoute.snapshot.data['getAllHeroesResolver'] as HeroModel[]);
 
     this.user = this.loginService.getUser();
-    console.log('user: ', this.user);
-
     this.activatedRoute.data.subscribe((users) => {
-      this._data = users['getAllHeroesResolver']; // 👈 Automatically updates when route changes
+      this._data = users['getAllHeroesResolver'];
       this.counter = this.traineesCounter.transform(this._data, this.user!);
       this.changeDetector.markForCheck();
     });

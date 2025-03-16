@@ -4,15 +4,15 @@
         <h4>Social Login</h4>
         <asl-google-signin-button size="large" type="standard" shape="circle" title="Sign with Google">
         </asl-google-signin-button>
-
-        <ng-container *ngIf="loginForm.hasError('invalid')">
-            <h4>Please Register to use Social Login</h4>
-        </ng-container>
     </div>
 
     <section class="full-width">
         <h4>User Login</h4>
-        <app-register [isRegister]="false"></app-register>
+        <app-register #appRegister [isRegister]="false"></app-register>
     </section>
+
+        <ng-container *ngIf="this.appRegister?.registerForm?.hasError('invalid')">
+            <h4>Please Register to use Social or Manual Login</h4>
+        </ng-container>
     
 </section>

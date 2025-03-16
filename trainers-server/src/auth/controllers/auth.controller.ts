@@ -13,6 +13,8 @@ export class authController {
     const isExists = await this.authService.IsUserExists({email:userLogin.email,password:userLogin.password});
     if(isExists){
       return await this.authService.login({email:userLogin.email,password:userLogin.password});
+    }else{
+      return isExists;
     }
   }
 

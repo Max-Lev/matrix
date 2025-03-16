@@ -42,7 +42,7 @@ export class LoginService {
     return this.httpClient.post<User>(`${environment.server}/auth/login`, formData)
       .pipe(
         catchError(err => {
-         return throwError(()=>new Error(err))
+          return throwError(() => new Error(err))
         })
       )
       .pipe(map(user => {
@@ -66,6 +66,15 @@ export class LoginService {
   manualLogin(formData: { email: string, password: string }): Observable<any> {
 
     return this.httpClient.post<User>(`${environment.server}/auth/manualLogin`, formData)
+      .pipe(
+        catchError((err: {
+          error: string;
+          message: string;
+          statusCode: number;
+        }) => {
+          return throwError(() => err);
+        })
+      )
       .pipe(map(user => {
         localStorage.setItem('user', JSON.stringify(user));
         this.userSubject.next(user);
@@ -73,5 +82,7 @@ export class LoginService {
       }));
 
   }
+
+
 
 }

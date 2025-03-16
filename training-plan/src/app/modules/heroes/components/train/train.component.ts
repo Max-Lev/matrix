@@ -32,8 +32,14 @@ export class TrainComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-
-    const { abilities, heroes, suits } = this.activatedRoute.snapshot.data['trainHeroesResolver'];
+    // this.activatedRoute.data.subscribe(data => {
+    //   const { abilities, heroes, suits } = data['trainHeroesResolver'];
+    //   this.heroes$ = of(heroes);
+    //   this.abilities = abilities;
+    //   this.suits = suits;
+    // });
+    
+    const { abilities, heroes, suits } = this.activatedRoute.snapshot?.data['trainHeroesResolver'];
     this.heroes$ = of(heroes);
     this.abilities = abilities;
     this.suits = suits;

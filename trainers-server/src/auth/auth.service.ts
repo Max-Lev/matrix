@@ -43,7 +43,15 @@ export class AuthService {
     }).exec();
 
     const isUserExists = (list.length) ? true : false;
-    return isUserExists;
+    if (!isUserExists) {
+      throw new HttpException({
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'NOT_FOUND',
+        error: 'NOT_FOUND'
+      }, HttpStatus.NOT_FOUND);
+    } else {
+      return isUserExists;
+    }
 
   }
 
@@ -52,7 +60,7 @@ export class AuthService {
     const details: { [email: string]: string } | string = this.jwtService.decode(decodedToken);
     Logger.log('user details', details);
 
-    const user:any = await this.userModel.findOne({ email: details['email'] }).exec();
+    const user: any = await this.userModel.findOne({ email: details['email'] }).exec();
 
     Logger.log('Logged User: ', user);
     if (user) {

@@ -1,6 +1,7 @@
 import { NgModule, inject } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
+import { IsSelectedGuard } from './modules/heroes/is-selected.guard';
 
 const routes: Routes = [
   {
@@ -11,7 +12,7 @@ const routes: Routes = [
     canActivate: [() => inject(AuthGuard).canActivate()]
   },
   {
-    path: '', redirectTo: 'user', pathMatch: 'full'
+    path: '**', redirectTo: 'user', pathMatch: 'full'
   }
 ];
 

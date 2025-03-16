@@ -96,6 +96,7 @@ export class HeroesService {
 
 
   async getHeroesByTrainerId(id: string) {
+    console.log('getHeroesByTrainerId id: ', id);
     const trainer = await this.heroesModel.find({ trainer: id }).exec();
     logger.warn('trainer: ', trainer);
     return trainer;
